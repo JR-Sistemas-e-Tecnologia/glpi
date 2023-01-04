@@ -34,6 +34,82 @@
 {% extends 'layout/page_card_notlogged.html.twig' %}
 
 {% block content_block %}
+
+   <script language="javascript">
+   
+   function SetMask(Sender, Mask) {
+    if ((Sender) && (Sender.style) && (Sender.style.textAlign) && (Sender.style.textAlign.toLowerCase() == "right"))
+	return SetMaskDown(Sender, Mask);
+
+    try {
+	Sender.maxLength = Mask.length;
+	var S = Sender.value;
+	var S2 = "";
+	var StartLenght = S.length;
+
+	n = S.length;
+
+	for (i = 0; i < n; i++) {
+	    if ((S.charAt(i) == "0") ||
+		(S.charAt(i) == "1") ||
+		(S.charAt(i) == "2") ||
+		(S.charAt(i) == "3") ||
+		(S.charAt(i) == "4") ||
+		(S.charAt(i) == "5") ||
+		(S.charAt(i) == "6") ||
+		(S.charAt(i) == "7") ||
+		(S.charAt(i) == "8") ||
+		(S.charAt(i) == "9")
+	    ) {
+		S2 = S2 + S.charAt(i);
+	    }
+	}
+
+	S = S2;
+	n = 0;
+
+	for (i = 0; i < S.length; i++) {
+	    if ((Mask.charAt(n) != "0") && (Mask.charAt(n) != "9")) {
+		S = S.substring(0, i) + Mask.charAt(n) + S.substring(i, S.length);
+	    }
+	    n++;
+	}
+
+	if (StartLenght <= S.length) {
+	    while ((n < Mask.length) && ((Mask.charAt(n) != "0") && (Mask.charAt(n) != "9"))) {
+		S = S + Mask.charAt(n);
+		n++;
+	    }
+	}
+
+	i = S.length;
+	while ((i > 0) &&
+	    (S != "") &&
+	    (S.charAt(i - 1) != "0") &&
+	    (S.charAt(i - 1) != "1") &&
+	    (S.charAt(i - 1) != "2") &&
+	    (S.charAt(i - 1) != "3") &&
+	    (S.charAt(i - 1) != "4") &&
+	    (S.charAt(i - 1) != "5") &&
+	    (S.charAt(i - 1) != "6") &&
+	    (S.charAt(i - 1) != "7") &&
+	    (S.charAt(i - 1) != "8") &&
+	    (S.charAt(i - 1) != "9")
+	) {
+	    S = S.substring(0, i - 1);
+	    i = S.length;
+	}
+
+	if (Sender.value != S) {
+	    Sender.value = S.substring(0, Mask.length);
+	}
+    }
+    catch (e) {
+
+    }
+}
+   </script>
+
    <form action="{{ path('front/login.php') }}" method="post" autocomplete="off"  data-submit-once>
       <input type="hidden" name="noAUTO" value="{{ noAuto }}" />
       <input type="hidden" name="redirect" value="{{ redirect }}" />
@@ -46,7 +122,7 @@
             </div>
             <div class="mb-3">
                <label class="form-label">{{ __('Login') }}</label>
-               <input type="text" class="form-control" id="login_name" name="{{ namfield }}" placeholder="" tabindex="1" />
+               <input type="text" class="form-control" id="login_name" name="{{ namfield }}" placeholder="" tabindex="1"  onchange="SetMask(this,'000.000.000-00')" onkeyup="SetMask(this,'000.000.000-00')" />
             </div>
             <div class="mb-4">
                <label class="form-label">

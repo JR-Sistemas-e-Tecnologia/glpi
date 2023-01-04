@@ -65,7 +65,7 @@ class NotificationTargetTicket extends NotificationTargetCommonITILObject
             ));
 
             if (empty($perso_tag)) {
-                 $perso_tag = 'GLPI';
+                 $perso_tag = 'HDJR';
             }
             return sprintf("[$perso_tag #%07d] ", $this->obj->getField('id'));
         }
